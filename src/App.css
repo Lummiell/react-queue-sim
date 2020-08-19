@@ -1,0 +1,81 @@
+:root{
+font-size: 60%;
+}
+*{
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+html,body,#root{
+  height:100vh;
+  background:#FBFBFB;
+}
+#root{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+}
+.cashierContainer{
+  display:flex;
+  flex-direction: row;
+}
+.cashier{
+  margin:1rem;
+  padding:1rem;
+  border: 0.1rem solid #555;
+  border-radius: 0.5rem;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+button{
+  cursor: pointer;
+}
+.cashier button{
+  background-color:#004ca3;
+  color:white;
+  border-radius: 0.2rem;
+  border:1px solid black;
+  padding:1rem;
+  margin:0.2rem
+}
+.newTicketContainer button{
+  margin:1rem;
+  padding:1rem;
+  color:white;
+  border: 1px solid black;
+  border-radius: 0.5rem;
+}
+.newTicketContainer button.primary{
+  background: green;
+}
+.newTicketContainer button.secondary{
+  background:brown;
+ 
+}
+.queuesContainer{
+  display: flex;
+}
+.queueContent{
+  margin:3rem;
+}
+.queue{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+ 
+}
+.queue p{
+  margin:0.3rem;
+  padding:0.3rem;
+  
+  border:1px solid black;
+  border-radius: 0.5rem;
+}
+
+body,input,button,textarea{
+  font:500 1.6rem Roboto;
+}
