@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import "./App.css";
-
+import { Button,Paper,Typography, Chip } from "@material-ui/core";
+import './App.css'
 function App() {
   const [attendingNP, setAttendingNP] = useState<string>();
   const [attendingP, setAttendingP] = useState<string>();
   const [priorityQueue, setPriorityQueue] = useState<string[]>([]);
   const [nonPriorityQueue, setNonPriorityQueue] = useState<string[]>([]);
-  const [nextIDNP, setNextIDNP] = useState<number>(0);
-  const [nextIDP, setNextIDP] = useState<number>(0);
+  const [nextNonPriorityEnqueueID, setNextNonPriorityEnqueueID] = useState<
+    number
+  >(0);
+  const [nextPriorityEnqueueID, setNextPriorityEnqueueID] = useState<number>(0);
   function Peek(priority: boolean): string {
     if (priority) {
       if (priorityQueue.length === 0) {
@@ -31,14 +33,14 @@ function App() {
       }
     }
   }
-  function NewTicket(priority: boolean) {
+  function Enqueue(priority: boolean) {
     if (priority) {
-      priorityQueue.push(`CXP-${nextIDP}`);
-      setNextIDP(nextIDP + 1);
+      priorityQueue.push(`CXP-${nextPriorityEnqueueID}`);
+      setNextPriorityEnqueueID(nextPriorityEnqueueID + 1);
       console.log(priorityQueue);
     } else {
-      nonPriorityQueue.push(`CXN-${nextIDNP}`);
-      setNextIDNP(nextIDNP + 1);
+      nonPriorityQueue.push(`CXN-${nextNonPriorityEnqueueID}`);
+      setNextNonPriorityEnqueueID(nextNonPriorityEnqueueID + 1);
     }
   }
   function Dequeue(priority: boolean) {
@@ -68,53 +70,73 @@ function App() {
     <>
       <h1>Simulador de fila de banco</h1>
       <div className="cashierContainer">
-        <div className="cashier">
-          <h2>Caixa Não-Prioritário</h2>
+        <Paper elevation={3} className='cashier'>
+          <h2>Caixa 01</h2>
           <p>Atendendo:{attendingNP || "N/A"}</p>
           <p>Próximo:{Peek(false)}</p>
-          <button onClick={()=>{Dequeue(false)}}>Chamar</button>
-        </div>
-        <div className="cashier">
-          <h2>Caixa Prioritário</h2>
+          <Button
+          variant="contained"
+          color="primary"
+            onClick={() => {
+              Dequeue(false);
+            }}
+          >
+            Chamar
+          </Button>
+        </Paper>
+        <Paper elevation={3} className='cashier'>
+          <h2>Caixa 02 (Prioritário)</h2>
           <p>Atendendo:{attendingP || "N/A"}</p>
           <p>Próximo:{Peek(true)}</p>
-          <button onClick={()=>{Dequeue(true)}}>Chamar</button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              Dequeue(true);
+            }}
+          >
+            Chamar
+          </Button>
+        </Paper>
+      </div>
+      <div className="content">
+        <div className="newTicketContainer">
+          <h3>Nova senha:</h3>
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={() => {
+              Enqueue(false);
+            }}
+          >
+            Comum
+          </Button>
+          <Button
+            variant='contained'
+            color='secondary'
+            onClick={() => {
+              Enqueue(true);
+            }}
+          >
+            Prioritária
+          </Button>
         </div>
-      </div>
-      <div className="newTicketContainer">
-        <h3>Nova senha:</h3>
-        <button
-          className="primary"
-          onClick={() => {
-            NewTicket(false);
-          }}
-        >
-          Não-Prioritária
-        </button>
-        <button
-          className="secondary"
-          onClick={() => {
-            NewTicket(true);
-          }}
-        >
-          Prioritária
-        </button>
-      </div>
-      <div className="queuesContainer">
-        <div className="queueContent">
-          <h3>Fila não-prioritária:</h3>
-          <div className="queue">
-            {nonPriorityQueue.map((item) => (
-              <p>{item}</p>
-            ))}
+        <div className="queuesContainer">
+          <div className="queueContent">
+            <h3>Fila Comum</h3>
+            <div className="queue">
+              {nonPriorityQueue.map((item) => (
+                <Chip key={item} variant='outlined' label={item}/>
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="queueContent">
-          <h3>Fila prioritária:</h3>
-          <div className="queue">
-            {priorityQueue.map((item) => (
-              <p key={item}>{item}</p>
-            ))}
+          <div className="queueContent">
+            <h3>Fila prioritária</h3>
+            <div className="queue">
+              {priorityQueue.map((item) => (
+                <Chip key={item} variant='outlined' label={item}/>
+              ))}
+            </div>
           </div>
         </div>
       </div>
