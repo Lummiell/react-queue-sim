@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Button,Paper,Typography, Chip } from "@material-ui/core";
+import { toast,ToastContainer } from "react-toastify";
 import './App.css'
+import 'react-toastify/dist/ReactToastify.css'
+toast.configure();
 function App() {
   const [attendingNP, setAttendingNP] = useState<string>();
   const [attendingP, setAttendingP] = useState<string>();
@@ -47,7 +50,7 @@ function App() {
     if (priority) {
       if (priorityQueue.length === 0) {
         if (nonPriorityQueue.length === 0) {
-          alert("Filas vazias!");
+          toast.error('Filas vazias!')
         } else {
           setAttendingP(nonPriorityQueue.shift());
         }
@@ -57,7 +60,7 @@ function App() {
     } else {
       if (nonPriorityQueue.length === 0) {
         if (priorityQueue.length === 0) {
-          alert("Filas vazias!");
+          toast.error('Filas vazias!')
         } else {
           setAttendingNP(priorityQueue.shift());
         }
@@ -68,11 +71,12 @@ function App() {
   }
   return (
     <>
+    <ToastContainer/>
       <h1>Simulador de fila de banco</h1>
       <div className="cashierContainer">
         <Paper elevation={3} className='cashier'>
           <h2>Caixa 01</h2>
-          <p>Atendendo:{attendingNP || "N/A"}</p>
+          <p>Atendendo:<b>{attendingNP || "N/A"}</b></p>
           <p>Próximo:{Peek(false)}</p>
           <Button
           variant="contained"
@@ -86,7 +90,7 @@ function App() {
         </Paper>
         <Paper elevation={3} className='cashier'>
           <h2>Caixa 02 (Prioritário)</h2>
-          <p>Atendendo:{attendingP || "N/A"}</p>
+          <p>Atendendo:<b>{attendingP || "N/A"}</b></p>
           <p>Próximo:{Peek(true)}</p>
           <Button
             variant="contained"
@@ -134,12 +138,13 @@ function App() {
             <h3>Fila prioritária</h3>
             <div className="queue">
               {priorityQueue.map((item) => (
-                <Chip key={item} variant='outlined' label={item}/>
+                <Chip  key={item} variant='outlined' label={item}/>
               ))}
             </div>
           </div>
         </div>
       </div>
+    
     </>
   );
 }
